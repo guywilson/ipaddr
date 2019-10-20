@@ -24,8 +24,9 @@ cmp -s ip.addr current_ip.addr
 if [ $? -ne 0 ] ; then
     echo -e ${ACTION}Files are different, uploading...${NOCOLOR}
     cp current_ip.addr ip.addr
+    git add ip.addr
     git commit -m "Updated IP Address"
-    git push origin master
+    git push https://guywilson:Cal14rnia@github.com/guywilson/ipaddr.git
 fi
 
 rm current_ip.addr
