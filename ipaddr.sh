@@ -15,7 +15,7 @@ while IFS= read -r credentials; do
     echo -e ${ACTION}Obtained credentials${NOCOLOR}
 done < ".credentials"
 
-curl -s https://www.ipchicken.com | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" > current_ip.addr
+sudo -u guy curl -s https://www.ipchicken.com | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" > current_ip.addr
 
 while IFS= read -r ipaddress; do
     echo -e ${ACTION}Found IP address: $ipaddress${NOCOLOR}
@@ -25,10 +25,10 @@ cmp -s ip.addr current_ip.addr
 
 if [ $? -ne 0 ] ; then
     echo -e ${ACTION}Files are different, uploading...${NOCOLOR}
-    cp current_ip.addr ip.addr
-    git add ip.addr
-    git commit -m "Updated IP Address"
-    git push https://$credentials@github.com/guywilson/ipaddr.git
+    sudo -u guy cp current_ip.addr ip.addr
+    sudo -u guy git add ip.addr
+    sudo -u guy git commit -m "Updated IP Address"
+    sudo -u guy git push https://$credentials@github.com/guywilson/ipaddr.git
 fi
 
 rm current_ip.addr
